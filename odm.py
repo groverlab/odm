@@ -1,8 +1,9 @@
 import serial, os, sys, datetime, time
 
 comments = input("Sample?  ").replace(' ', '_')
-csvfilename = datetime.datetime.now().strftime("%Y%m%dT%H%M%S") + "_" + comments + ".csv"
-statfilename = csvfilename[:-4] + "_STAT.txt"
+basefilename = datetime.datetime.now().strftime("%Y%m%dT%H%M%S") + "_" + comments
+csvfilename = basefilename + "_DATA.csv"
+statfilename = basefilename + "_STAT.txt"
 csvfile = open(csvfilename, "w")
 statfile = open(statfilename, "w")
 port = ""
