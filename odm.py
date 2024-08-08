@@ -1,4 +1,10 @@
-import serial, os, sys, datetime, time
+import os, sys, datetime, time, platform
+
+try:
+    import serial
+    from serial.tools.list_ports import comports
+except ImportError as err:
+    sys.exit("❌ Can't find pyserial module - install it by running 'pip install pyserial'")
 
 comments = input("Sample?  ").replace(' ', '_')
 basefilename = datetime.datetime.now().strftime("%Y%m%dT%H%M%S") + "_" + comments
@@ -6,19 +12,36 @@ csvfilename = basefilename + "_DATA.csv"
 statfilename = basefilename + "_STAT.txt"
 csvfile = open(csvfilename, "w")
 statfile = open(statfilename, "w")
+
+# port = ""
+# usb_count = 0
+# devices = os.listdir("/dev")
+# for device in devices:
+#     if "cu.usb" in device:
+#         port = device
+#         usb_count += 1
+# if usb_count == 0:
+#     sys.exit("No port found")
+# if usb_count > 1:
+#     sys.exit("Multiple ports found")
+# port = "/dev/" + port
+# print(port)
+
+ports = 0
 port = ""
-usb_count = 0
-devices = os.listdir("/dev")
-for device in devices:
-    if "cu.usb" in device:
-        port = device
-        usb_count += 1
-if usb_count == 0:
-    sys.exit("No port found")
-if usb_count > 1:
-    sys.exit("Multiple ports found")
-port = "/dev/" + port
-print(port)
+for p in comports():
+    print(str(p))
+    if "USB" in str(p) or "usb" in str(p):
+        port = p.name
+        ports += 1
+if ports == 0:
+    sys.exit("❌ No port found - is the Arduino plugged in?")
+if ports >= 2:
+    sys.exit("❌ Too many ports found - unplug everything but the Arduino and try again")
+if platform.system() == "Darwin":  # if MacOS...
+    port = "/dev/" + port   # ...prepend /dev/
+print("✅ Found an Arduino at " + port)
+
 data = []
 ser = serial.Serial(port, 115200, timeout=1)
 
