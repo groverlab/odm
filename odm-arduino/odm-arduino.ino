@@ -1,6 +1,6 @@
 void setup() {
   analogReadResolution(14);
-  Serial.begin(2000000);
+  Serial.begin(115200);
 }
 
 void loop() {
