@@ -13,20 +13,6 @@ statfilename = basefilename + "_STAT.txt"
 csvfile = open(csvfilename, "w")
 statfile = open(statfilename, "w")
 
-# port = ""
-# usb_count = 0
-# devices = os.listdir("/dev")
-# for device in devices:
-#     if "cu.usb" in device:
-#         port = device
-#         usb_count += 1
-# if usb_count == 0:
-#     sys.exit("No port found")
-# if usb_count > 1:
-#     sys.exit("Multiple ports found")
-# port = "/dev/" + port
-# print(port)
-
 ports = 0
 port = ""
 for p in comports():
@@ -56,11 +42,11 @@ ser.flush()
 ser.read_all()
 while True:
     et = time.time() - start_time
-    if 0 <= et < t1:
+    if 0 <= et < t1:  # baseline phase
         print(f"{str(datetime.timedelta(seconds=t1-et))}", end="\t")
-    elif t1 <= et < t2:
+    elif t1 <= et < t2:  # dissolution phase
         print(f"{str(datetime.timedelta(seconds=t2-et))}", end="\t")
-    if et >= t2:  # was elif
+    if et >= t2:  # experiment over
         break
     s = ser.readline().decode("utf-8", "ignore")
     # if(measurement_number % 10000 == 0):
@@ -69,7 +55,6 @@ while True:
     print(f"{ser.inWaiting()}\t{s}", end="")
 
     csvfile.write(s)
-
 
 statfile.write(str(time.time()) + "\n")
 csvfile.close()
