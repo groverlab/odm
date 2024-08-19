@@ -18,7 +18,7 @@ print(len(peaks))
 
 plt.hist(peaks, bins=100)
 plt.gca().set_xlim(0, 3500000)
-plt.gca().set_ylim(0, 120)
+# plt.gca().set_ylim(0, 120)
 plt.gca().set_xlabel("Time [s]")
 plt.gca().set_ylabel("Peak count")
 
