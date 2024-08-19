@@ -8,8 +8,8 @@ duration = stop-start
 points = len(data)
 times = numpy.linspace(0, duration, points)
 smooth = scipy.signal.savgol_filter(data, 20, 3)
-# smooth=data
 fig, ax = plt.subplots(1, 1, figsize=(10, 3))
+# ax.plot(times, data)
 ax.plot(times, smooth)
 # plt.yscale("log")
 # ax.set_xlim(left=0, right=3.5e6)
