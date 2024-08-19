@@ -1,12 +1,15 @@
-import os, sys, datetime, time, platform
+import sys, datetime, time, platform
 
 try:
     import serial
     from serial.tools.list_ports import comports
 except ImportError as err:
     sys.exit("❌ Can't find pyserial module - install it by running 'pip install pyserial'")
-
-comments = input("Sample?  ").replace(' ', '_')
+    
+if len(sys.argv) == 2:
+    comments = sys.argv[1].replace(' ', '_')
+else:
+    comments = input("Sample?  ").replace(' ', '_')
 basefilename = datetime.datetime.now().strftime("%Y%m%dT%H%M%S") + "_" + comments
 csvfilename = basefilename + "_DATA.csv"
 statfilename = basefilename + "_STAT.txt"
@@ -59,4 +62,4 @@ while True:
 statfile.write(str(time.time()) + "\n")
 csvfile.close()
 statfile.close()
-print("DONE")
+print("\n\aDONE")
