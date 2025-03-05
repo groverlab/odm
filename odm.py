@@ -39,7 +39,6 @@ statfile.write(str(start_time) + "\n")
 t1 = 300  # 5 minutes  300
 t2 = 30*60 + t1  # 30 minutes of dissolution
 
-# measurement_number = 0
 ser.flush()
 ser.read_all()
 while True:
